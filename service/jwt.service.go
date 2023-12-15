@@ -113,6 +113,7 @@ func GetTokenId(c *gin.Context) (uint64, error) {
 
 func GetToken(c *gin.Context) (string, error) {
 	authHeader := c.GetHeader("Authorization")
+	println(authHeader)
 
 	if len(authHeader) == 0 {
 		err := errors.New("authorization header is empty")
