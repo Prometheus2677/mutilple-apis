@@ -7,6 +7,7 @@ import (
 
 type PostRepository interface {
 	CreatePost() (*entity.Post, error)
+	FindById(title string) (*entity.Post, error)
 	FindByTitle(title string) (*entity.Post, error)
 	UpdatePost(id uint64) (*entity.Post, error)
 	DeletePost(id uint64) bool
@@ -31,6 +32,15 @@ func (repo *postRepository) CreatePost(post *entity.Post) (*entity.Post, error) 
 func (repo *postRepository) FindByTitle(title string) (*entity.Post, error) {
 	var post *entity.Post
 	err := repo.db.Where("title = ?", title).First(&post).Error
+	if err != nil {
+		return post, err
+	}
+	return post, nil
+}
+
+func (repo *postRepository) FindById(id uint64) (*entity.Post, error) {
+	var post *entity.Post
+	err := repo.db.Where("id = ?", id).First(&post).Error
 	if err != nil {
 		return post, err
 	}

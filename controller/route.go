@@ -40,6 +40,7 @@ func (s *Server) InitializeRoutes() {
 		post := api.Group("/post", middleware.AuthMiddleware())
 		{
 			post.POST("/create", s.CreatePost)
+			post.GET("/get/:id", s.GetPost)
 		}
 	}
 

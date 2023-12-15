@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -32,4 +33,16 @@ func (s *Server) CreatePost(c *gin.Context) {
 		return
 	}
 	response.Created(c, "Post Created", postCreated)
+}
+
+func (s *Server) GetPost(c *gin.Context) {
+	idString := c.Param("id")
+	repo := repository.NewPostRepository(s.DB)
+	id, err := strconv.ParseUint(idString, 10, 64)
+	postFound, err := repo.FindById(id)
+	if err != nil {
+		response.ServerError(c, err.Error())
+		return
+	}
+	response.Created(c, "Post Found", postFound)
 }
